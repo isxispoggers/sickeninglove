@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lonely Afterparty - Official Artist Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        :root {
+            --primary-color: #ffffff;
+            --background-color: #000000;
+            --accent-color: #cccccc;
+            --shadow-color: rgba(255, 255, 255, 0.1);
+            --glow-color: rgba(255, 255, 255, 0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-color);
+            background-color: var(--background-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--background-color), #111111, var(--background-color));
+            background-size: 200% 200%;
+            animation: subtleGradient 30s ease infinite;
+            z-index: -2;
+            opacity: 0.8;
+        }
+
+        .background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: fallParticles 25s linear infinite;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        @keyframes subtleGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes fallParticles {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(50px); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 20px 20px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .header-image {
+            max-width: 600px;
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 0 30px var(--glow-color);
+            margin-bottom: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .header-image:hover {
+            transform: scale(1.02);
+        }
+
+.header-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 3.95rem;
+    font-weight: 650;
+    text-transform: uppercase;
+    text-shadow: 0 0 15px var(--glow-color);
+    letter-spacing: 2px;
+}
+
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 30px;
+        }
+
+        .bio-section {
+            animation: fadeIn 1.5s ease-out;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 0 0 8px var(--glow-color);
+            letter-spacing: 1px;
+        }
+
+        .bio-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--accent-color);
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 25px;
+        }
+
+        .tracks-section {
+            animation: fadeIn 2s ease-out;
+            margin-bottom: 30px;
+        }
+
+        .tracks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+        }
+
+        .track-item {
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .track-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px var(--glow-color);
+        }
+
+        .social-section {
+            text-align: center;
+            animation: fadeIn 2.5s ease-out;
+            margin: 30px 0;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 10px;
+        }
+
+        .social-icon {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            transition: color 0.3s ease, transform 0.3s ease, filter 0.3s ease;
+        }
+
+        .social-icon:hover {
+            color: #ffffff;
+            transform: scale(1.2);
+            filter: drop-shadow(0 0 15px #ffffff);
+        }
+
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 2.5rem;
+            }
+
+            .tracks-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 20px 15px;
+            }
+
+            .social-icon {
+                font-size: 2rem;
+            }
+
+            .header {
+                padding: 30px 15px 15px;
+            }
+
+            .bio-text {
+                padding: 0 10px;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+
+    <header class="header">
+        <img src="spotify.png" alt="Lonely Afterparty" class="header-image">
+        <h1 class="header-title">Lonely Afterparty</h1>
+    </header>
+
+    <section class="container bio-section">
+        <p class="bio-text">
+            Lonely Afterparty is a 15-year-old artist hailing from the suburbs of Atlanta, Georgia. He mainly focuses on the genres of Indie, Indie Rock, Indie Pop, Alternative Rock, and R&B. Making music since he was 13, he has improved exponentially. He mainly sings about his problematic life and the struggles he faces. With his parents divorcing at a young age, along with the struggles of constant high pressure from them.
+        </p>
+    </section>
+
+    <section class="container tracks-section">
+        <h2 class="section-title">Top Tracks</h2>
+        <div class="tracks-grid">
+            <div class="track-item">
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/3jbIbxGHApkyjV6q8AZi9T?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
+            <div class="track-item">
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/0ThcLSD4ECy4xLGvgDrWtt?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
+            <div class="track-item">
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/5mVpqMGaCLd02D61Nmd3k6?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
+            <div class="track-item">
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/5Rh36eHXqd6Q2qIvWMhVKz?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
+            <div class="track-item">
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/0zpAGfmGJV8mMhJhWCwNAM?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
+            <div class="track-item">
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/20QqfL7QyHfzq1edAI5bsQ?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <section class="social-section">
+        <h2 class="section-title">Contact Me</h2>
+        <div class="social-icons">
+            <a href="https://open.spotify.com/artist/2FB44I4jSJybLAa4uEe0wg" target="_blank" class="social-icon"><i class="fab fa-spotify"></i></a>
+            <a href="https://instagram.com/6inx" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="https://discord.com/users/762838777323323394" target="_blank" class="social-icon"><i class="fab fa-discord"></i></a>
+        </div>
+    </section>
+
+</body>
+</html>
