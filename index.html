@@ -2,265 +2,787 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lonely Afterparty</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>yash</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary-color: #ffffff;
-            --background-color: #000000;
-            --accent-color: #cccccc;
-            --shadow-color: rgba(255, 255, 255, 0.1);
-            --glow-color: rgba(255, 255, 255, 0.3);
-        }
-
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            cursor: none;
         }
 
         body {
-            font-family: 'Montserrat', sans-serif;
-            color: var(--primary-color);
-            background-color: var(--background-color);
-            line-height: 1.6;
+            background: #121212;
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: #f5f5f7;
+            line-height: 1.5;
+            min-height: 100vh;
+            position: relative;
             overflow-x: hidden;
         }
 
-        .background {
+        body::before {
+            content: "";
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, var(--background-color), #111111, var(--background-color));
-            background-size: 200% 200%;
-            animation: subtleGradient 30s ease infinite;
-            z-index: -2;
-            opacity: 0.8;
+            background: radial-gradient(circle at 20% 30%, rgba(60, 60, 80, 0.15), transparent 60%),
+                        radial-gradient(circle at 80% 70%, rgba(40, 40, 60, 0.1), transparent 50%);
+            pointer-events: none;
+            z-index: 0;
         }
 
-        .background::before {
-            content: '';
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .custom-cursor {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99999;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
+            box-shadow: 0 0 6px rgba(255,255,255,0.5);
+            will-change: left, top;
+        }
+
+        .custom-cursor.hover {
+            width: 22px;
+            height: 22px;
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(1px);
+            box-shadow: 0 0 14px rgba(255,255,255,0.5);
+        }
+
+        a, button, .track-card, .track-card iframe, iframe, .social-link-item, .avatar-frame {
+            cursor: none !important;
+        }
+
+        iframe {
+            cursor: none !important;
+        }
+
+        .site-wrap {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 2rem 4rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .artist-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.8rem;
+            position: relative;
+        }
+
+        .artist-header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), rgba(255,255,255,0.5), rgba(255,255,255,0.2), transparent);
+        }
+
+        .avatar-frame {
+            max-width: 520px;
+            width: 100%;
+            margin: 0 auto 1.2rem;
+            border-radius: 28px;
+            overflow: hidden;
+            background: #1c1c1e;
+            position: relative;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: avatarGlide 1.2s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+            transform-style: preserve-3d;
+            will-change: transform;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.3);
+        }
+
+        @keyframes avatarGlide {
+            0% {
+                opacity: 0;
+                transform: translateY(40px) scale(0.96);
+                filter: blur(8px);
+            }
+            40% {
+                opacity: 0.7;
+                transform: translateY(-5px) scale(1.01);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        .avatar-inner {
+            width: 100%;
+            position: relative;
+            transition: transform 0.1s ease-out;
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        .avatar-frame::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 28px;
+            padding: 2px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.08) 100%);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .avatar-frame::after {
+            content: "";
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: fallParticles 25s linear infinite;
-            opacity: 0.3;
-            z-index: -1;
+            background: radial-gradient(circle at var(--glare-x, 50%) var(--glare-y, 50%), rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 70%);
+            pointer-events: none;
+            z-index: 3;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+            border-radius: 28px;
         }
 
-        @keyframes subtleGradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .avatar-frame:hover::after {
+            opacity: 1;
         }
 
-        @keyframes fallParticles {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(50px); }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .header {
-            text-align: center;
-            padding: 40px 20px 20px;
-            animation: fadeIn 1s ease-out;
-        }
-
-        .header-image {
-            max-width: 600px;
+        .avatar-img {
             width: 100%;
-            border-radius: 12px;
-            box-shadow: 0 0 30px var(--glow-color);
-            margin-bottom: 10px;
-            transition: transform 0.3s ease;
+            display: block;
+            object-fit: cover;
+            transition: filter 0.2s ease;
+            will-change: transform;
+            pointer-events: none;
         }
 
-        .header-image:hover {
-            transform: scale(1.02);
+        .avatar-frame:hover .avatar-img {
+            filter: brightness(1.02) contrast(1.02);
         }
 
-.header-title {
-    font-family: 'Poppins', sans-serif;
-    font-size: 3.95rem;
-    font-weight: 650;
-    text-transform: uppercase;
-    text-shadow: 0 0 15px var(--glow-color);
-    letter-spacing: 2px;
-}
-
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 30px 30px;
+        .artist-name {
+            font-size: 4.2rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin: 0.8rem 0 0;
+            line-height: 1.2;
+            display: inline-block;
+            background: linear-gradient(135deg, #ffffff 0%, #b8b8d0 40%, #e8e8f0 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            position: relative;
+            opacity: 0;
+            transform: scale(0.92) translateY(20px);
+            animation: cinematicReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            filter: blur(0);
+            text-shadow: 0 0 20px rgba(255,255,255,0.2);
+        }
+        
+        @keyframes cinematicReveal {
+            0% {
+                opacity: 0;
+                transform: scale(0.88) translateY(35px);
+                filter: blur(12px);
+                letter-spacing: 8px;
+                text-shadow: 0 0 0 rgba(255,255,255,0);
+            }
+            30% {
+                opacity: 0.6;
+                filter: blur(4px);
+                letter-spacing: 2px;
+            }
+            70% {
+                opacity: 0.9;
+                transform: scale(1.02) translateY(-2px);
+                filter: blur(0);
+                letter-spacing: -0.02em;
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+                filter: blur(0);
+                letter-spacing: -0.03em;
+                text-shadow: 0 0 20px rgba(255,255,255,0.15);
+            }
+        }
+        
+        .artist-name {
+            animation: cinematicReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+                       gentlePulse 4s ease-in-out 1.4s infinite;
+        }
+        
+        @keyframes gentlePulse {
+            0%, 100% {
+                text-shadow: 0 0 20px rgba(255,255,255,0.15);
+                background: linear-gradient(135deg, #ffffff 0%, #b8b8d0 40%, #e8e8f0 100%);
+                background-clip: text;
+                -webkit-background-clip: text;
+            }
+            50% {
+                text-shadow: 0 0 30px rgba(255,255,255,0.35);
+                background: linear-gradient(135deg, #ffffff 0%, #d0d0e8 40%, #ffffff 100%);
+                background-clip: text;
+                -webkit-background-clip: text;
+            }
         }
 
-        .bio-section {
-            animation: fadeIn 1.5s ease-out;
-            margin-bottom: 30px;
+        .artist-header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%) scaleX(0);
+            width: 120px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), rgba(255,255,255,0.8), rgba(255,255,255,0.5), transparent);
+            animation: lineExpand 1s ease-out 0.9s forwards;
         }
-
-        .section-title {
-            font-size: 2rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-            text-align: center;
-            text-shadow: 0 0 8px var(--glow-color);
-            letter-spacing: 1px;
-        }
-
-        .bio-text {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: var(--accent-color);
-            text-align: center;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0 25px;
+        
+        @keyframes lineExpand {
+            0% {
+                transform: translateX(-50%) scaleX(0);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(-50%) scaleX(1);
+                opacity: 1;
+            }
         }
 
         .tracks-section {
-            animation: fadeIn 2s ease-out;
-            margin-bottom: 30px;
+            margin: 2rem 0 2.5rem;
         }
 
         .tracks-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.6rem;
         }
 
-        .track-item {
-            border-radius: 12px;
+        .track-card {
+            background: linear-gradient(135deg, #16161c 0%, #131318 100%);
+            border-radius: 28px;
+            border: 1px solid #26262e;
             overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: trackReveal 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
         }
 
-        .track-item:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 30px var(--glow-color);
+        @keyframes trackReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .social-section {
-            text-align: center;
-            animation: fadeIn 2.5s ease-out;
-            margin: 30px 0;
-            max-width: 900px;
-            margin-left: auto;
-            margin-right: auto;
+        .track-card:nth-child(1) { animation-delay: 0.1s; }
+        .track-card:nth-child(2) { animation-delay: 0.2s; }
+        .track-card:nth-child(3) { animation-delay: 0.3s; }
+        .track-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .track-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+            transition: left 0.6s ease;
+            pointer-events: none;
         }
 
-        .social-icons {
+        .track-card:hover::before {
+            left: 100%;
+        }
+
+        .track-card:hover {
+            transform: translateY(-5px);
+            border-color: #3e3e4a;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.6);
+            background: linear-gradient(135deg, #1a1a22, #14141c);
+        }
+
+        .track-embed {
+            width: 100%;
             display: flex;
             justify-content: center;
-            gap: 40px;
-            margin-top: 10px;
+            align-items: center;
+            pointer-events: auto;
         }
 
-        .social-icon {
-            color: var(--primary-color);
-            font-size: 2.5rem;
-            transition: color 0.3s ease, transform 0.3s ease, filter 0.3s ease;
+        .track-embed iframe {
+            width: 100%;
+            height: 152px;
+            border: none;
+            border-radius: 0;
+            display: block;
+            pointer-events: auto;
         }
 
-        .social-icon:hover {
-            color: #ffffff;
-            transform: scale(1.2);
-            filter: drop-shadow(0 0 15px #ffffff);
+        .contact-area {
+            margin-top: 3rem;
+            text-align: center;
+            padding: 1rem 0;
+            opacity: 0;
+            animation: contactSlide 0.7s ease-out 0.7s forwards;
         }
-
-        @media (max-width: 768px) {
-            .header-title {
-                font-size: 2.5rem;
+        
+        @keyframes contactSlide {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
             }
-
-            .tracks-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .container {
-                padding: 20px 15px;
-            }
-
-            .social-icon {
-                font-size: 2rem;
-            }
-
-            .header {
-                padding: 30px 15px 15px;
-            }
-
-            .bio-text {
-                padding: 0 10px;
+            100% {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
 
-        html {
-            scroll-behavior: smooth;
+        .contact-title {
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #9a9aac;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .contact-title::before,
+        .contact-title::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 30px;
+            height: 1px;
+            background: rgba(255,255,255,0.15);
+        }
+
+        .contact-title::before {
+            left: -40px;
+        }
+
+        .contact-title::after {
+            right: -40px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.8rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #1d1d20;
+            padding: 0.7rem 1.8rem;
+            border-radius: 60px;
+            color: #efeff1;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.25s ease;
+            border: 1px solid #2c2c30;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: scale(0.95);
+            animation: socialPop 0.5s cubic-bezier(0.34, 1.2, 0.64, 1) forwards;
+        }
+        
+        .social-link-item:nth-child(1) { animation-delay: 0.65s; }
+        .social-link-item:nth-child(2) { animation-delay: 0.75s; }
+        
+        @keyframes socialPop {
+            0% {
+                opacity: 0;
+                transform: scale(0.92);
+                filter: blur(4px);
+            }
+            60% {
+                opacity: 0.9;
+                transform: scale(1.02);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+                filter: blur(0);
+            }
+        }
+
+        .social-link-item:hover {
+            background: #26262c;
+            color: white;
+            border-color: #5a5a66;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.4);
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3a3a44;
+            border-radius: 3px;
+        }
+
+        @media (max-width: 700px) {
+            .site-wrap {
+                padding: 1.5rem 1.2rem 2.5rem;
+            }
+            .artist-name {
+                font-size: 2.8rem;
+            }
+            .avatar-frame {
+                max-width: 340px;
+            }
+            .track-embed iframe {
+                height: 132px;
+            }
+            .social-link-item {
+                padding: 0.5rem 1.3rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .avatar-frame {
+                max-width: 260px;
+            }
+            .artist-name {
+                font-size: 2.2rem;
+            }
+            .track-embed iframe {
+                height: 120px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="background"></div>
 
-    <header class="header">
-        <img src="spotify.png" alt="Lonely Afterparty" class="header-image">
-        <h1 class="header-title">Lonely Afterparty</h1>
-    </header>
+    <div class="custom-cursor"></div>
 
-    <section class="container bio-section">
-        <p class="bio-text">
-            Lonely Afterparty is a 15-year-old artist hailing from the suburbs of Atlanta, Georgia. He mainly focuses on the genres of Indie, Indie Rock, Indie Pop, Alternative Rock, and R&B. Making music since he was 13, he has improved exponentially. He mainly sings about his problematic life and the struggles he faces. With his parents divorcing at a young age, along with the struggles of constant high pressure from them.
-        </p>
-    </section>
+    <div class="site-wrap">
+        <div class="artist-header">
+            <div class="avatar-frame" id="tiltAvatar">
+                <div class="avatar-inner" id="avatarInner">
+                    <img src="spotify.png" alt="yash" class="avatar-img" id="avatarImg" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, #1c1c1e, #16161a)'; this.parentElement.parentElement.style.padding='50px 0'; this.parentElement.parentElement.innerHTML='<div style=\'color:#aaa; font-size:1rem; padding:50px; letter-spacing:2px;\'>YASH</div>'">
+                </div>
+            </div>
+            <h1 class="artist-name">yash</h1>
+        </div>
 
-    <section class="container tracks-section">
-        <h2 class="section-title">Top Tracks</h2>
-        <div class="tracks-grid">
-            <div class="track-item">
-                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/3jbIbxGHApkyjV6q8AZi9T?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-            </div>
-            <div class="track-item">
-                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/0ThcLSD4ECy4xLGvgDrWtt?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-            </div>
-            <div class="track-item">
-                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/5mVpqMGaCLd02D61Nmd3k6?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-            </div>
-            <div class="track-item">
-                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/5Rh36eHXqd6Q2qIvWMhVKz?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-            </div>
-            <div class="track-item">
-                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/0zpAGfmGJV8mMhJhWCwNAM?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-            </div>
-            <div class="track-item">
-                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/20QqfL7QyHfzq1edAI5bsQ?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        <div class="tracks-section">
+            <div class="tracks-grid">
+                <div class="track-card">
+                    <div class="track-embed">
+                        <iframe src="https://open.spotify.com/embed/track/1BVa4eovv9tLtDcnXTH1Zc?utm_source=generator&theme=0" 
+                                width="100%" 
+                                height="152" 
+                                frameborder="0" 
+                                allowfullscreen="" 
+                                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                                loading="lazy"
+                                title="cathedral track">
+                        </iframe>
+                    </div>
+                </div>
+                
+                <div class="track-card">
+                    <div class="track-embed">
+                        <iframe src="https://open.spotify.com/embed/track/3IAigCtBptEK69YtYwRoJY?si=44c55c6cf9c44c2d&theme=0" 
+                                width="100%" 
+                                height="152" 
+                                frameborder="0" 
+                                allowfullscreen="" 
+                                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                                loading="lazy"
+                                title="cathedral track">
+                        </iframe>
+                    </div>
+                </div>
+                
+                <div class="track-card">
+                    <div class="track-embed">
+                        <iframe src="https://open.spotify.com/embed/track/3UtKm7DUMNsiuHDZhRwlUQ?si=48021406ae264605&theme=0" 
+                                width="100%" 
+                                height="152" 
+                                frameborder="0" 
+                                allowfullscreen="" 
+                                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                                loading="lazy"
+                                title="cathedral track">
+                        </iframe>
+                    </div>
+                </div>
+
+                <div class="track-card">
+                    <div class="track-embed">
+                        <iframe src="https://open.spotify.com/embed/track/4Ti7lxbxDy1aWdq6LsJ61c?si=d4c5986c29a04a18&theme=0" 
+                                width="100%" 
+                                height="152" 
+                                frameborder="0" 
+                                allowfullscreen="" 
+                                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                                loading="lazy"
+                                title="extra track">
+                        </iframe>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
 
-    <section class="social-section">
-        <h2 class="section-title">Contact Me</h2>
-        <div class="social-icons">
-            <a href="https://open.spotify.com/artist/2FB44I4jSJybLAa4uEe0wg" target="_blank" class="social-icon"><i class="fab fa-spotify"></i></a>
-            <a href="https://instagram.com/6inx" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
-            <a href="https://discord.com/users/762838777323323394" target="_blank" class="social-icon"><i class="fab fa-discord"></i></a>
+        <div class="contact-area">
+            <div class="contact-title">contacts</div>
+            <div class="social-links">
+                <a href="https://open.spotify.com/artist/4ENawWDokra2Mi1w73oPL4" target="_blank" class="social-link-item">
+                    <i class="fab fa-spotify"></i> <span>Spotify</span>
+                </a>
+                <a href="https://discord.com/users/1438015482211864587" target="_blank" class="social-link-item">
+                    <i class="fab fa-discord"></i> <span>Discord</span>
+                </a>
+            </div>
         </div>
-    </section>
+    </div>
 
+    <script>
+        (function() {
+            const phrases = ["yash"];
+            let currentPhraseIndex = 0;
+            let currentCharIndex = 0;
+            let isDeleting = false;
+            let currentText = "";
+            let timeoutId = null;
+            
+            function typewriterEffect() {
+                const targetPhrase = phrases[currentPhraseIndex];
+                
+                if (!isDeleting) {
+                    currentText = targetPhrase.substring(0, currentCharIndex + 1);
+                    currentCharIndex++;
+                    
+                    if (currentCharIndex === targetPhrase.length) {
+                        isDeleting = true;
+                        timeoutId = setTimeout(typewriterEffect, 1800);
+                        document.title = currentText;
+                        return;
+                    }
+                } else {
+                    currentText = targetPhrase.substring(0, currentCharIndex - 1);
+                    currentCharIndex--;
+                    
+                    if (currentCharIndex === 0) {
+                        isDeleting = false;
+                        timeoutId = setTimeout(typewriterEffect, 300);
+                        document.title = currentText;
+                        return;
+                    }
+                }
+                
+                document.title = currentText;
+                let delay = isDeleting ? 60 : 80;
+                timeoutId = setTimeout(typewriterEffect, delay);
+            }
+            
+            typewriterEffect();
+            
+            window.addEventListener('beforeunload', function() {
+                if (timeoutId) clearTimeout(timeoutId);
+            });
+            
+            const avatarImg = document.getElementById('avatarImg');
+            if (avatarImg) {
+                avatarImg.addEventListener('error', function() {
+                    if (!this.src.includes('data:image')) {
+                        this.style.display = 'none';
+                        const parent = this.parentElement;
+                        if (parent) {
+                            parent.style.background = 'linear-gradient(135deg, #1c1c1e, #16161a)';
+                            parent.style.padding = '50px 0';
+                            parent.innerHTML = '<div style="color:#aaa; font-size:1rem; padding:50px; letter-spacing:2px;">YASH</div>';
+                        }
+                    }
+                });
+            }
+
+            const tiltContainer = document.getElementById('tiltAvatar');
+            const avatarInner = document.getElementById('avatarInner');
+            
+            if (tiltContainer && avatarInner) {
+                const updateGlare = (e, container) => {
+                    const rect = container.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const percentX = (x / rect.width) * 100;
+                    const percentY = (y / rect.height) * 100;
+                    container.style.setProperty('--glare-x', percentX + '%');
+                    container.style.setProperty('--glare-y', percentY + '%');
+                };
+                
+                let currentRotateX = 0;
+                let currentRotateY = 0;
+                let targetRotateX = 0;
+                let targetRotateY = 0;
+                let animationFrame = null;
+                
+                const applySmoothTilt = () => {
+                    currentRotateX += (targetRotateX - currentRotateX) * 0.12;
+                    currentRotateY += (targetRotateY - currentRotateY) * 0.12;
+                    
+                    if (avatarInner) {
+                        avatarInner.style.transform = `perspective(1500px) rotateX(${currentRotateX}deg) rotateY(${currentRotateY}deg) translateZ(3px)`;
+                    }
+                    
+                    if (Math.abs(targetRotateX - currentRotateX) > 0.01 || Math.abs(targetRotateY - currentRotateY) > 0.01) {
+                        animationFrame = requestAnimationFrame(applySmoothTilt);
+                    } else {
+                        animationFrame = null;
+                    }
+                };
+                
+                const handleMouseMove = (e) => {
+                    const rect = tiltContainer.getBoundingClientRect();
+                    const centerX = rect.left + rect.width / 2;
+                    const centerY = rect.top + rect.height / 2;
+                    
+                    let relX = (e.clientX - centerX) / (rect.width / 2);
+                    let relY = (e.clientY - centerY) / (rect.height / 2);
+                    
+                    relX = Math.min(Math.max(relX, -0.95), 0.95);
+                    relY = Math.min(Math.max(relY, -0.95), 0.95);
+                    
+                    const maxRotateX = 5;
+                    const maxRotateY = 6;
+                    
+                    targetRotateY = relX * maxRotateY;
+                    targetRotateX = -relY * maxRotateX;
+                    
+                    if (!animationFrame) {
+                        animationFrame = requestAnimationFrame(applySmoothTilt);
+                    }
+                    
+                    updateGlare(e, tiltContainer);
+                };
+                
+                const handleMouseLeave = () => {
+                    targetRotateX = 0;
+                    targetRotateY = 0;
+                    if (!animationFrame) {
+                        animationFrame = requestAnimationFrame(applySmoothTilt);
+                    }
+                    tiltContainer.style.setProperty('--glare-x', '50%');
+                    tiltContainer.style.setProperty('--glare-y', '50%');
+                };
+                
+                tiltContainer.addEventListener('mousemove', handleMouseMove);
+                tiltContainer.addEventListener('mouseleave', handleMouseLeave);
+            }
+
+            const cursor = document.querySelector('.custom-cursor');
+            if (cursor) {
+                let mouseX = 0, mouseY = 0;
+                let cursorX = 0, cursorY = 0;
+                
+                document.addEventListener('mousemove', (e) => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                });
+                
+                function animateCursor() {
+                    cursorX += (mouseX - cursorX) * 0.14;
+                    cursorY += (mouseY - cursorY) * 0.14;
+                    cursor.style.left = cursorX + 'px';
+                    cursor.style.top = cursorY + 'px';
+                    requestAnimationFrame(animateCursor);
+                }
+                animateCursor();
+                
+                const interactiveElements = document.querySelectorAll('a, button, .social-link-item, .avatar-frame, .track-card, .contact-title');
+                
+                interactiveElements.forEach(el => {
+                    el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+                    el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+                });
+                
+                const allTrackCards = document.querySelectorAll('.track-card');
+                allTrackCards.forEach(card => {
+                    card.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+                    card.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+                });
+                
+                const styleOverride = document.createElement('style');
+                styleOverride.textContent = `
+                    iframe, iframe *, .track-embed, .track-embed * {
+                        cursor: none !important;
+                    }
+                `;
+                document.head.appendChild(styleOverride);
+                
+                document.addEventListener('mouseleave', () => cursor.style.opacity = '0');
+                document.addEventListener('mouseenter', () => cursor.style.opacity = '1');
+                
+                setTimeout(() => {
+                    mouseX = window.innerWidth / 2;
+                    mouseY = window.innerHeight / 2;
+                    cursorX = mouseX;
+                    cursorY = mouseY;
+                    cursor.style.left = cursorX + 'px';
+                    cursor.style.top = cursorY + 'px';
+                }, 10);
+            }
+        })();
+    </script>
 </body>
 </html>
-
